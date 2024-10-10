@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -22,6 +24,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordTextEditingController = TextEditingController();
   TextEditingController nameTextEditingController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   @override
   void dispose() {
@@ -104,18 +108,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
   onTapSignUp() {
     if (formKey.currentState?.validate() ?? false) {
       debugPrint("Form validation success!");
-      clearFields();
+      _register();
     } else {
       debugPrint("Form validation failed!");
       clearFields();
     }
   }
 
-  clearFields(){
+  clearFields() {
     setState(() {
       emailTextEditingController.clear();
       passwordTextEditingController.clear();
       nameTextEditingController.clear();
     });
+  }
+
+  Future<void> _register() async {
+    try {
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
+        email: emailTextEditingController.text,
+        password: passwordTextEditingController.text,
+      );
+
+      await _fireStore.collection('users').doc(userCredential.user?.uid).set({
+        'name': nameTextEditingController.text,
+        'email': emailTextEditingController.text,
+      });
+      clearFields();
+    } catch (e) {
+      debugPrint("Some error occurred! $e ");
+    }
   }
 }
