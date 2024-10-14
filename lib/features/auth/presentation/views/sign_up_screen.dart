@@ -7,7 +7,7 @@ import 'package:pingo_learn_news/config/constants/app_strings.dart';
 import 'package:pingo_learn_news/config/extensions/app_text_styles.dart';
 import 'package:pingo_learn_news/config/extensions/size_extensions.dart';
 import 'package:pingo_learn_news/config/routes/route_constants.dart';
-import 'package:pingo_learn_news/core/utils/validation_utils.dart';
+import 'package:pingo_learn_news/features/common/utils/validation_utils.dart';
 import 'package:pingo_learn_news/config/constants/app_sizes.dart';
 import 'package:pingo_learn_news/features/common/widgets/primary_button.dart';
 import 'package:pingo_learn_news/features/common/widgets/user_text_field.dart';
@@ -125,16 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _register() async {
     try {
-      UserCredential userCredential =
-          await _firebaseAuth.createUserWithEmailAndPassword(
-        email: emailTextEditingController.text,
-        password: passwordTextEditingController.text,
-      );
 
-      await _fireStore.collection('users').doc(userCredential.user?.uid).set({
-        'name': nameTextEditingController.text,
-        'email': emailTextEditingController.text,
-      });
       clearFields();
     } catch (e) {
       debugPrint("Some error occurred! $e ");
