@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pingo_learn_news/config/extensions/app_text_styles.dart';
-import 'package:pingo_learn_news/config/extensions/size_extensions.dart';
 import 'package:pingo_learn_news/config/themes/app_colors.dart';
 
 class UserTextField extends StatefulWidget {

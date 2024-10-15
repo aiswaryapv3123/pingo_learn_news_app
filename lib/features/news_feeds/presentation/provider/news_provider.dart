@@ -1,11 +1,8 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:pingo_learn_news/config/constants/app_strings.dart';
-import 'package:pingo_learn_news/core/error/api_errors.dart';
-import 'package:pingo_learn_news/core/error/api_failure.dart';
 import 'package:pingo_learn_news/features/news_feeds/data/models/news_data_model.dart';
 import 'package:pingo_learn_news/features/news_feeds/domain/repository/news_repository.dart';
 

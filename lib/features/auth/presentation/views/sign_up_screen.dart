@@ -29,8 +29,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       TextEditingController();
   TextEditingController nameTextEditingController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   late AuthRepoProvider authProvider;
 
   @override
