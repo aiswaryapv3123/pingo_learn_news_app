@@ -6,9 +6,11 @@ import 'package:pingo_learn_news/config/routes/routes.dart';
 import 'package:pingo_learn_news/config/routes/routes_utils.dart';
 import 'package:pingo_learn_news/config/themes/theme_data.dart';
 import 'package:pingo_learn_news/features/auth/domain/repository/auth_repository.dart';
-import 'package:pingo_learn_news/features/auth/domain/repository/auth_repository_provider.dart';
+import 'package:pingo_learn_news/features/auth/domain/repository/auth_repository_impl.dart';
 import 'package:pingo_learn_news/features/auth/presentation/provider/auth_provider.dart';
 import 'package:pingo_learn_news/features/auth/presentation/views/login_screen.dart';
+import 'package:pingo_learn_news/features/news_feeds/domain/repository/new_repository_impl.dart';
+import 'package:pingo_learn_news/features/news_feeds/presentation/provider/news_provider.dart';
 import 'package:pingo_learn_news/firebase_options.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +33,12 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AuthRepoProvider(
-            authRepository: RepositoryProvider.getAuthRepository(),
+            authRepository: AuthRepositoryImpl(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NewsProvider(
+            newsRepository: NewsRepositoryImpl(),
           ),
         ),
       ],
@@ -41,7 +48,7 @@ class MyApp extends StatelessWidget {
         theme: AppThemeData.getAppThemeData(context),
         navigatorKey: RouteUtils.navKey,
         onGenerateRoute: AppRoutes.generatedRoute,
-        initialRoute: RouteConstants.loginPage,
+        initialRoute: RouteConstants.newsFeedPage,
       ),
     );
   }

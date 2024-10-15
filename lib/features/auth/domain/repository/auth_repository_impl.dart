@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pingo_learn_news/config/constants/app_strings.dart';
 import 'package:pingo_learn_news/core/error/api_errors.dart';
 import 'package:pingo_learn_news/core/error/api_failure.dart';
 import 'package:pingo_learn_news/features/auth/domain/repository/auth_repository.dart';
@@ -19,15 +20,15 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       String? uid = userCredential.user?.uid;
-      // DocumentSnapshot userDoc =
-      //     await _fireStore.collection('users').doc(uid).get();
-      // if (!userDoc.exists) {
-      //   return Left(ClientError(
-      //     message: "No user found for that email.",
-      //     errorCode: 404,
-      //     validationMessage: "No user found for that email.",
-      //   ));
-      // }
+      DocumentSnapshot userDoc =
+          await _fireStore.collection('users').doc(uid).get();
+      if (!userDoc.exists) {
+        return Left(ClientError(
+          message: "No user found for that email.",
+          errorCode: 404,
+          validationMessage: "No user found for that email.",
+        ));
+      }
       return Right(userCredential);
     } on FirebaseAuthException catch (e) {
       return Left(ServerError(
@@ -37,9 +38,9 @@ class AuthRepositoryImpl implements AuthRepository {
       ));
     } catch (e) {
       return Left(ServerError(
-        message: "Failed to connect to the server",
+        message: AppStrings.failedToConnect,
         errorCode: 500,
-        validationMessage: "Internal Server Error",
+        validationMessage: AppStrings.internalServerError,
       ));
     }
   }
@@ -51,15 +52,15 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Right(null);
     } catch (e) {
       return Left(ServerError(
-        message: "Failed to connect to the server",
+        message: AppStrings.failedToConnect,
         errorCode: 500,
-        validationMessage: "Internal Server Error",
+        validationMessage: AppStrings.internalServerError,
       ));
     }
   }
 
   @override
-  Future<Either<ApiFailure, UserCredential>> signUp(
+  Future<Either<ApiFailure, UserCredential>> signUp(String userName,
       String email, String password) async {
     try {
       UserCredential userCredential =
@@ -69,8 +70,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       await _fireStore.collection('users').doc(userCredential.user?.uid).set({
-        'name': email,
-        'email': password,
+        'name': userName,
+        'email': email,
       });
       return Right(userCredential);
     } on FirebaseAuthException catch (e) {
@@ -81,9 +82,9 @@ class AuthRepositoryImpl implements AuthRepository {
       ));
     } catch (e) {
       return Left(ServerError(
-        message: "Failed to connect to the server",
+        message: AppStrings.failedToConnect,
         errorCode: 500,
-        validationMessage: "Internal Server Error",
+        validationMessage: AppStrings.internalServerError,
       ));
     }
   }

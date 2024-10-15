@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   onTapSignUp() {
-    Navigator.of(context).pushNamed(RouteConstants.signUpPage);
+    Navigator.of(context).pushReplacementNamed(RouteConstants.signUpPage);
   }
 
   onTapLogin() async {
@@ -119,9 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).pushNamedAndRemoveUntil(
             RouteConstants.newsFeedPage, (Route<dynamic> route) => false);
       });
-      clearFields();
-    } else {
-      debugPrint("Form validation failed!");
       clearFields();
     }
   }

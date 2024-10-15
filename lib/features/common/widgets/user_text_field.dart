@@ -24,7 +24,6 @@ class _UserTextFieldState extends State<UserTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: context.heightFct(0.06),
       decoration: BoxDecoration(
         color: AppColors.primaryWhite,
         borderRadius: BorderRadius.circular(10),
@@ -33,7 +32,7 @@ class _UserTextFieldState extends State<UserTextField> {
         padding: const EdgeInsets.only(left: 15.0),
         child: TextFormField(
           controller: widget.textEditingController,
-          obscureText: showPassword,
+          obscureText: widget.isPassword ? true : false,
           style: context.mediumBlack14,
           validator: widget.validator,
           decoration: InputDecoration(

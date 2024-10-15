@@ -18,22 +18,22 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: isLoading
-          ? const SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(
-                color: AppColors.primaryWhite,
-              ),
-            )
-          : Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: context.widthFct(0.18), vertical: AppSizes.gap12),
-              child: Text(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: context.widthFct(0.18), vertical: AppSizes.gap12),
+        child: isLoading
+            ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  color: AppColors.primaryWhite,
+                ),
+              )
+            : Text(
                 label,
                 style: context.semiBoldWhite15,
               ),
-            ),
+      ),
     );
   }
 }

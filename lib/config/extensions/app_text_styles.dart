@@ -21,9 +21,22 @@ extension AppTextStyles on BuildContext {
           fontSize: 15,
           color: AppColors.primaryBlueDark,
           fontWeight: AppFontWeights.semiBold);
-  TextStyle? get boldBlue22 =>
+  TextStyle? get boldBlue22 => Theme.of(this).textTheme.titleMedium?.copyWith(
+      fontSize: 22,
+      color: AppColors.primaryBlueDark,
+      fontWeight: AppFontWeights.bold);
+  TextStyle? get bold16Black => Theme.of(this).textTheme.titleMedium?.copyWith(
+      fontSize: 16,
+      color: AppColors.primaryBlack,
+      fontWeight: AppFontWeights.bold);
+  TextStyle? get mediumBlack16 =>
       Theme.of(this).textTheme.titleMedium?.copyWith(
-          fontSize: 22,
-          color: AppColors.primaryBlueDark,
-          fontWeight: AppFontWeights.bold);
+          fontSize: 14,
+          color: AppColors.primaryBlack,
+          fontWeight: AppFontWeights.medium);
+  TextStyle? get regularGrey13 =>
+      Theme.of(this).textTheme.titleMedium?.copyWith(
+          fontSize: 13,
+          color: AppColors.greyLight,
+          fontWeight: AppFontWeights.regular);
 }

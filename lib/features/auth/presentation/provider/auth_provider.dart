@@ -16,7 +16,8 @@ class AuthRepoProvider extends ChangeNotifier {
   bool logOutLoading = false;
   AuthRepoProvider({required this.authRepository});
 
-  Future<Either<ApiFailure, UserCredential>> login(String email, String password) async {
+  Future<Either<ApiFailure, UserCredential>> login(
+      String email, String password) async {
     updateLoginLoading(true);
     Either<ApiFailure, UserCredential> response =
         await authRepository.login(email, password);
@@ -25,18 +26,15 @@ class AuthRepoProvider extends ChangeNotifier {
     return response;
   }
 
-  signUp(String email, String password) async {
+  Future<Either<ApiFailure, UserCredential>> signUp(
+      String userName, String email, String password) async {
     updateSignUpLoading(true);
     Either<ApiFailure, UserCredential> response =
-        await authRepository.login(email, password);
-    response.fold((l) {
-      signUpErrorMessage = l.message;
-      updateSignUpLoading(false);
-    }, (r) {
-      userSignUpCredential = r;
-      updateSignUpLoading(false);
-    });
+        await authRepository.signUp(userName, email, password);
+
+    updateSignUpLoading(false);
     notifyListeners();
+    return response;
   }
 
   logOut(BuildContext context) async {
