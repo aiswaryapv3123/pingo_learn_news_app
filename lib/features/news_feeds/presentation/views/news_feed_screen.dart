@@ -1,6 +1,8 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:pingo_learn_news/config/constants/app_icons.dart';
 import 'package:pingo_learn_news/config/constants/app_sizes.dart';
 import 'package:pingo_learn_news/config/constants/app_strings.dart';
 import 'package:pingo_learn_news/config/extensions/app_text_styles.dart';
@@ -20,16 +22,30 @@ class NewsFeedScreen extends StatefulWidget {
 
 class _NewsFeedScreenState extends State<NewsFeedScreen> {
   late NewsProvider newsProvider;
+  String countryCode = 'US';
 
   @override
   void initState() {
     newsProvider = Provider.of<NewsProvider>(context, listen: false);
-    getNewsData();
+    getCountryCode();
+    getNewsData(countryCode);
     super.initState();
   }
 
-  getNewsData() {
-    newsProvider.getNewsFeed('us');
+  getCountryCode() {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    remoteConfig.onConfigUpdated.listen((RemoteConfigUpdate event) async {
+      await remoteConfig.activate();
+      setState(() {
+        countryCode = remoteConfig.getString('countryCode');
+
+        getNewsData(countryCode);
+      });
+    });
+  }
+
+  getNewsData(String countryCode) {
+    newsProvider.getNewsFeed(countryCode);
   }
 
   @override
@@ -41,11 +57,15 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         backgroundColor: AppColors.primaryBlueDark,
         title: const Text(AppStrings.myNews),
         actions: [
-          const Row(children: [
-            Icon(Icons.telegram),
-            Gap(AppSizes.gap7),
-            Text("IN"),
-            Gap(AppSizes.gap20)
+          Row(children: [
+            Image.asset(
+              AppIcons.ic_location,
+              width: 20,
+              height: 20,
+            ),
+            const Gap(AppSizes.gap7),
+            Text(countryCode),
+            const Gap(AppSizes.gap20)
           ])
         ],
       ),

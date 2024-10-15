@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         theme: AppThemeData.getAppThemeData(context),
         navigatorKey: RouteUtils.navKey,
         onGenerateRoute: AppRoutes.generatedRoute,
-        initialRoute: RouteConstants.newsFeedPage,
+        initialRoute: RouteConstants.loginPage,
       ),
     );
   }
